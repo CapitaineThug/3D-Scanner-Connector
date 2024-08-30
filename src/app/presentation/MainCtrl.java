@@ -28,7 +28,7 @@ public class MainCtrl implements Initializable {
         Stage mainStage = new Stage();
         mainStage.setMinHeight(600);
         mainStage.setMinWidth(1024);
-        mainStage.getIcons().add(new Image("resources/images/icon.png"));
+        mainStage.getIcons().add(new Image("resources/images/icon02.png"));
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainView.fxml"));
         fxmlLoader.setControllerFactory(type -> {
           return this;
@@ -36,7 +36,7 @@ public class MainCtrl implements Initializable {
         Parent root = (Parent) fxmlLoader.load();
         Scene principalScene = new Scene(root);
         mainStage.setScene(principalScene);
-        mainStage.setTitle("Application JAVAFX 21");
+        mainStage.setTitle("3D Scanner Connector");
         mainStage.show();
       } catch (IOException ex) {
         ex.printStackTrace();
