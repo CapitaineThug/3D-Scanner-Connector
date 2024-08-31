@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="907.0" stylesheets="@../../resources/css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presentation.MainCtrl">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="907.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.presentation.MainCtrl">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -33,12 +36,39 @@
    <left>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="vb_ImageView" spacing="100.0" />
+            <VBox fx:id="vb_ImageView" spacing="100.0">
+               <children>
+                  <Text fill="#bcbcbc" strokeType="OUTSIDE" strokeWidth="0.0" text="No pictures ..." />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding></VBox>
          </content>
       </ScrollPane>
    </left>
    <right>
-      <VBox fx:id="vb_Config" prefHeight="500.0" prefWidth="175.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="vb_Config" prefHeight="500.0" prefWidth="175.0" spacing="10.0" style="-fx-background-color: #DDDDDD;" BorderPane.alignment="CENTER">
+         <children>
+            <TitledPane text="Project">
+               <content>
+                  <VBox spacing="5.0">
+                     <children>
+                        <TextField fx:id="tf_ProjectName" promptText="Project name" />
+                     </children>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane text="Path">
+               <content>
+                  <VBox spacing="5.0">
+                     <children>
+                        <TextField fx:id="tf_PhotosPath" promptText="Photos path" />
+                        <TextField fx:id="tf_ProjectRoot" promptText="Project root" />
+                     </children>
+                  </VBox>
+               </content>
+            </TitledPane>
+         </children></VBox>
    </right>
    <bottom>
       <ScrollPane fx:id="scp_Log" fitToHeight="true" fitToWidth="true" prefHeight="105.0" prefWidth="907.0" BorderPane.alignment="CENTER">
@@ -47,6 +77,9 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="15.07.2024: Log" />
                </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </VBox>
         </content>
       </ScrollPane>
