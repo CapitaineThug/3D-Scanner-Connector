@@ -17,17 +17,17 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="mni_Close" mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="mni_Close" mnemonicParsing="false" onAction="#actionQuitter" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem fx:id="mni_StartCompuse" mnemonicParsing="false" text="Start Compute" />
+              <MenuItem fx:id="mni_StartCompuse" mnemonicParsing="false" onAction="#actionStartCompute" text="Start Compute" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#actionAbout" text="About" />
             </items>
           </Menu>
         </menus>
@@ -36,7 +36,7 @@
    <left>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="vb_ImageView" spacing="100.0">
+            <VBox fx:id="vb_ImageView" spacing="5.0">
                <children>
                   <Text fill="#bcbcbc" strokeType="OUTSIDE" strokeWidth="0.0" text="No pictures ..." />
                </children>
@@ -53,7 +53,7 @@
                <content>
                   <VBox spacing="5.0">
                      <children>
-                        <TextField fx:id="tf_ProjectName" promptText="Project name" />
+                        <TextField fx:id="tf_ProjectName" onAction="#actionSetProjectName" promptText="Project name" />
                      </children>
                   </VBox>
                </content>
@@ -62,8 +62,8 @@
                <content>
                   <VBox spacing="5.0">
                      <children>
-                        <TextField fx:id="tf_PhotosPath" promptText="Photos path" />
-                        <TextField fx:id="tf_ProjectRoot" promptText="Project root" />
+                        <TextField fx:id="tf_PhotosPath" onAction="#actionSetPhotoPath" promptText="Photos path" />
+                        <TextField fx:id="tf_ProjectRoot" onAction="#actionSetProjectRoot" promptText="Project root" />
                      </children>
                   </VBox>
                </content>
@@ -73,10 +73,7 @@
    <bottom>
       <ScrollPane fx:id="scp_Log" fitToHeight="true" fitToWidth="true" prefHeight="105.0" prefWidth="907.0" BorderPane.alignment="CENTER">
         <content>
-            <VBox prefHeight="103.0" prefWidth="645.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="15.07.2024: Log" />
-               </children>
+            <VBox fx:id="vb_Log" prefHeight="103.0" prefWidth="645.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>

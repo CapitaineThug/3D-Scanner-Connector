@@ -1,7 +1,7 @@
 package app.workers;
 
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Cette interface définit les services "métier" de l'application.
@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface WorkerItf {
 
-    List<File> listDirectoryFiles(String path);    
+    ArrayList<File> listDirectoryFiles(String path);    
     
 }
