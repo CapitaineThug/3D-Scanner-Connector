@@ -56,7 +56,7 @@
                <content>
                   <VBox spacing="5.0">
                      <children>
-                        <TextField fx:id="tf_ProjectName" onAction="#actionSetProjectName" promptText="Project name" />
+                        <TextField fx:id="tf_ProjectName" onAction="#actionSetProjectName" promptText="Project name" text="01_Example" />
                      </children>
                   </VBox>
                </content>
@@ -65,8 +65,8 @@
                <content>
                   <VBox spacing="5.0">
                      <children>
-                        <TextField fx:id="tf_PhotosPath" onAction="#actionSetPhotoPath" promptText="Photos path" />
-                        <TextField fx:id="tf_ProjectRoot" onAction="#actionSetProjectRoot" promptText="Project root" />
+                        <TextField fx:id="tf_PhotosPath" onAction="#actionSetPhotoPath" promptText="Photos path" text="C:\Users\Nicolas\Downloads\Scan" />
+                        <TextField fx:id="tf_ProjectRoot" onAction="#actionSetProjectRoot" promptText="Project root" text="C:\Users\Nicolas\Downloads\Project" />
                         <Text fx:id="Txt_ProjectPath" fill="#b2b2b2" strokeType="OUTSIDE" strokeWidth="0.0" text="Project Path" />
                      </children>
                   </VBox>

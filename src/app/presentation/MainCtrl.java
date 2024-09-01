@@ -1,6 +1,7 @@
 package app.presentation;
 
 import app.helpers.DateTimeLib;
+import app.workers.MetashapeWorker;
 import app.workers.Worker;
 
 import java.io.IOException;
@@ -37,6 +38,7 @@ import java.util.Date;
  */
 public class MainCtrl implements Initializable {
   private WorkerItf wrk;
+  private MetashapeWorker metashapeWrk;
   @FXML
   private Text Txt_ProjectPath;
   @FXML
@@ -90,6 +92,7 @@ public class MainCtrl implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     wrk = new Worker();
+    metashapeWrk = new MetashapeWorker();
   }
 
   public void quitter() {
@@ -211,7 +214,8 @@ public class MainCtrl implements Initializable {
       if (!pictures.isEmpty()) {
         if (wrk.isPathExisting(projectRoot)) {
           if (wrk.isNameWriteable(projectName)) {
-            // Tout est bon pour lancer le projet
+            // Lancer la création du projet
+            metashapeWrk.createMetashapeProject(pictures, projectName, projectRoot);
           } else {
             addLog("Le nom de projet doit être renseigné et valide !");
           }
