@@ -14,6 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -35,6 +37,14 @@ import java.util.Date;
  */
 public class MainCtrl implements Initializable {
   private WorkerItf wrk;
+  @FXML
+  private Text Txt_ProjectPath;
+  @FXML
+  private Button bt_LaunchCompute;
+  @FXML
+  private Button bt_UpdatePictures;
+  @FXML
+  private CheckBox cb_AutoPictureUpdate;
   @FXML
   private MenuItem mni_Close;
   @FXML
@@ -117,9 +127,24 @@ public class MainCtrl implements Initializable {
       }
       // Log
       addLog("Images du répertoire '" + photoPath + "' scannées et affichées (" + pictures.size() + " éléments)");
-    }else{
+    } else {
       addLog("Aucune images détectées dans '" + photoPath + "'");
     }
+  }
+
+  public void addLog(String log) {
+    Date date = new Date();
+    String print = "[ " + DateTimeLib.dateTimeToString(date) + "] : " + log;
+    vb_Log.getChildren().add(new Text(print));
+    scp_Log.setVvalue(1.0);
+
+  }
+
+  /**
+   * Mets à jour le nom complet du répertoire de projet
+   */
+  public void updateProjectPath() {
+    Txt_ProjectPath.setText(tf_ProjectRoot.getText() + "\\" + tf_ProjectName.getText());
   }
 
   @FXML
@@ -148,6 +173,7 @@ public class MainCtrl implements Initializable {
   @FXML
   void actionSetProjectName(ActionEvent event) {
     String projectName = tf_ProjectName.getText();
+    updateProjectPath();
     addLog("Nom de projet définit à '" + projectName + "'");
 
   }
@@ -155,6 +181,7 @@ public class MainCtrl implements Initializable {
   @FXML
   void actionSetProjectRoot(ActionEvent event) {
     String projectRoot = tf_ProjectRoot.getText();
+    updateProjectPath();
     addLog("Location des projets Metashape définie à '" + projectRoot + "'");
   }
 
@@ -163,12 +190,40 @@ public class MainCtrl implements Initializable {
 
   }
 
-  public void addLog(String log) {
-    Date date = new Date();
-    String print = "[ " + DateTimeLib.dateTimeToString(date) + "] : " + log;
-    vb_Log.getChildren().add(new Text(print));
-    scp_Log.setVvalue(1.0);
-
+  @FXML
+  void action_ToggleAutoUpdatePicture(ActionEvent event) {
+    if (cb_AutoPictureUpdate.isSelected()) {
+      updatePictures(tf_PhotosPath.getText());
+    }
   }
 
+  @FXML
+  void actionUpdatePictures(ActionEvent event) {
+    updatePictures(tf_PhotosPath.getText());
+  }
+
+  @FXML
+  void actonLaunchCompute(ActionEvent event) {
+    ArrayList<File> pictures = wrk.listDirectoryFiles(tf_PhotosPath.getText());
+    String projectName = tf_ProjectName.getText();
+    String projectRoot = tf_ProjectRoot.getText();
+    if (pictures != null) {
+      if (!pictures.isEmpty()) {
+        if (wrk.isPathExisting(projectRoot)) {
+          if (wrk.isNameWriteable(projectName)) {
+            // Tout est bon pour lancer le projet
+          } else {
+            addLog("Le nom de projet doit être renseigné et valide !");
+          }
+        } else {
+          addLog("Le chemin racine des projets n'est pas valide !");
+        }
+      } else {
+        addLog("Le scan requis des images pour être lancé");
+      }
+    } else {
+      addLog("Erreur de lecture des photos");
+    }
+
+  }
 }

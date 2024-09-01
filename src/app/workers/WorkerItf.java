@@ -11,5 +11,7 @@ import java.util.ArrayList;
 public interface WorkerItf {
 
     ArrayList<File> listDirectoryFiles(String path);    
+    boolean isPathExisting(String path);
+    boolean isNameWriteable(String name);
     
 }

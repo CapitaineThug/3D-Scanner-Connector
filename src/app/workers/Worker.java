@@ -7,6 +7,9 @@ import java.util.List;
 
 public class Worker implements WorkerItf {
 
+    // Constantes
+    public final static String INVALID_CHARACTERS = "/\\?%*:|\"<>";
+
     // Attributs
     private ArrayList<File> listPhotos;
 
@@ -23,6 +26,7 @@ public class Worker implements WorkerItf {
      * @return une liste vide si aucun fichier n'est trouvé
      */
     public ArrayList<File> listDirectoryFiles(String path) {
+
         // Extensions valides
         ArrayList<String> okExt = new ArrayList();
         okExt.add("jpeg");
@@ -53,5 +57,43 @@ public class Worker implements WorkerItf {
         }
         // Retour
         return files;
+    }
+
+    /**
+     * Vérifie qu'un chemin d'accès existe bien sur le système de fichier de l'hôte
+     * 
+     * @return vrai si le chemin d'accès existe, sinon faux
+     */
+    public boolean isPathExisting(String path) {
+        boolean result = false;
+        File testPath = new File(path);
+        result = testPath.exists();
+        return result;
+
+    }
+
+    /**
+     * Vérifie qu'un nom renseigné est utilisable dans le nommage d'un fichier. Il
+     * ne doit donc pas contenir de caractères n'étant pas écrivables dans un
+     * fichier.
+     * 
+     * @return vrai si le nom est écrivable, sinon, faux
+     */
+    public boolean isNameWriteable(String name) {
+        boolean result = false;
+        if (name != null) {
+            if (!name.isEmpty()) {
+                if (!name.isBlank()) {
+                    for (char c : INVALID_CHARACTERS.toCharArray()) {
+                        if (name.indexOf(c) < 0) {
+                            result = true;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return result;
     }
 }
