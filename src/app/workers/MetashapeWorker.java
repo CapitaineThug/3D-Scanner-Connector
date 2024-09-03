@@ -18,7 +18,7 @@ public class MetashapeWorker implements MetashapeWorkerItf {
 
         // Variables
         String exeName = "metashape.exe";
-        String scriptPath = "script" + File.separator + "CreateProjectFiles.py";
+        String scriptPath = new File("script" + File.separator + "CreateProjectFiles.py").getAbsolutePath();
         String projectDirectory = projectsRoot + File.separator + projectName;
         String projectImagesPath = projectDirectory + File.separator + "IMG";
 
@@ -40,9 +40,10 @@ public class MetashapeWorker implements MetashapeWorkerItf {
         }
 
         // Lancer la création du projet
-        Process metashape = new ProcessBuilder(exeName, "-r", "'" + scriptPath + "'", projectImagesPath,
+        ProcessBuilder metashapeBuilder = new ProcessBuilder(exeName, "-r", scriptPath, projectImagesPath,
                 projectDirectory,
-                projectName).start();
+                projectName);
+        Process metashape = metashapeBuilder.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(metashape.getInputStream()));
         String line;
         while ((line = reader.readLine()) != null) {
