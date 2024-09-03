@@ -38,6 +38,16 @@ public class MetashapeWorker implements MetashapeWorkerItf {
                 file.renameTo(new File(projectImagesPath + File.separator + file.getName()));
             }
         }
+
+        // Lancer la création du projet
+        Process metashape = new ProcessBuilder(exeName, "-r", "'" + scriptPath + "'", projectImagesPath,
+                projectDirectory,
+                projectName).start();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(metashape.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
     }
 
     @Override
@@ -50,7 +60,7 @@ public class MetashapeWorker implements MetashapeWorkerItf {
     public String verifMetashapeExe() throws Exception {
         // Variables
         String exeName = "metashape.exe";
-        String result = "";
+        String result = null;
 
         // Vérifier l'existence de Metashape
         Process metashapeVersion = new ProcessBuilder(exeName, "--version").start();
