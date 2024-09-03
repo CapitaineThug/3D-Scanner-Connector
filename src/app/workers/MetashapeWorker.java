@@ -1,57 +1,71 @@
 package app.workers;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import com.agisoft.metashape.*;
 
-public class MetashapeWorker {
+public class MetashapeWorker implements MetashapeWorkerItf {
 
-    // Attributs
-
-    // Constructeur
-    public MetashapeWorker() {
-
-    }
-
+    @Override
     /**
-     * Crée le fichier de projet et y importe les photos
+     * Créée le projet Metashape ainsi que la structure de fichiers et importe le
+     * projet
      */
-    public void createMetashapeProject(ArrayList<File> photos, String projectName, String projectDirectory) {
+    public void createMetashapeProject(ArrayList<File> photos, String projectName, String projectsRoot)
+            throws IOException {
 
-        // Construire le chemin du projet
-        String projectPath = projectDirectory + File.separator + projectName + File.separator + projectName + ".psx";
+        // Variables
+        String exeName = "metashape.exe";
+        String scriptPath = "script" + File.separator + "CreateProjectFiles.py";
+        String projectDirectory = projectsRoot + File.separator + projectName;
+        String projectImagesPath = projectDirectory + File.separator + "IMG";
 
-        // Vérifier et créer le répertoire du projet si nécessaire
-        File projectDir = new File(projectDirectory + File.separator + projectName);
-        if (!projectDir.exists()) {
-            if (!projectDir.mkdirs()) {
-                System.out.println("Erreur : Impossible de créer le répertoire du projet.");
-                return;
+        // Créer les répertoires si inexistants
+        File projectPath = new File(projectDirectory);
+        if (!projectPath.exists()) {
+            projectPath.mkdir();
+        }
+        projectPath = new File(projectImagesPath);
+        if (!projectPath.exists()) {
+            projectPath.mkdir();
+        }
+
+        // Copier les Photos
+        if (photos != null && !photos.isEmpty()) {
+            for (File file : photos) {
+                file.renameTo(new File(projectImagesPath + File.separator + file.getName()));
             }
         }
+    }
 
-        // Créer le projet
-        Document document = new Document();
-        document.save(projectPath, null);
+    @Override
+    /**
+     * Vérifie l'existence de Metashape en demandant sa version.
+     * 
+     * @return null, ou la sortie de consile de Metashape si le processus a pu être
+     *         exécuté
+     */
+    public String verifMetashapeExe() throws Exception {
+        // Variables
+        String exeName = "metashape.exe";
+        String result = "";
 
-        // Ajouter un chunk au document
-        Chunk chunk = document.addChunk();
+        // Vérifier l'existence de Metashape
+        Process metashapeVersion = new ProcessBuilder(exeName, "--version").start();
 
-        // Ajouter les photos
-        String[] photosPath = new String[photos.size()];
-        for (int i = 0; i < photos.size(); i++) {
-            photosPath[i] = photos.get(i).getAbsolutePath();
-            System.out.println("Photo ajoutée : " + photosPath[i]);
+        // Affiche la sortie
+        BufferedReader reader = new BufferedReader(new InputStreamReader(metashapeVersion.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (result == null) {
+                result = "";
+            }
+            result = result + " " + line;
         }
-        chunk.addPhotos(photosPath, null);
+        // Retour du résultat
+        return result;
 
-        // Sauvegarder le projet
-        try {
-            document.save(document.getPath(), null);
-            System.out.println("Projet sauvegardé à : " + document.getPath());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Erreur lors de la sauvegarde du projet.");
-        }
     }
 }

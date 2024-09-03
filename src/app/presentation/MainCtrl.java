@@ -2,6 +2,7 @@ package app.presentation;
 
 import app.helpers.DateTimeLib;
 import app.workers.MetashapeWorker;
+import app.workers.MetashapeWorkerItf;
 import app.workers.Worker;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ import java.util.Date;
  */
 public class MainCtrl implements Initializable {
   private WorkerItf wrk;
-  private MetashapeWorker metashapeWrk;
+  private MetashapeWorkerItf metashapeWrk;
   @FXML
   private Text Txt_ProjectPath;
   @FXML
@@ -214,8 +215,21 @@ public class MainCtrl implements Initializable {
       if (!pictures.isEmpty()) {
         if (wrk.isPathExisting(projectRoot)) {
           if (wrk.isNameWriteable(projectName)) {
-            // Lancer la création du projet
-            metashapeWrk.createMetashapeProject(pictures, projectName, projectRoot);
+            try {
+              // Vérifier l'existence de Metashape
+              String metashapeVersion = metashapeWrk.verifMetashapeExe();
+
+              if (metashapeVersion != null) {
+                addLog(metashapeVersion);
+                // Lancer la création du projet
+                metashapeWrk.createMetashapeProject(pictures, projectName, projectRoot);
+              } else {
+                addLog("ERROR METASHAPE, MANAGED BY EXCEPTION NORMALLY...");
+              }
+            } catch (Exception ex) {
+              addLog(ex.toString());
+            }
+
           } else {
             addLog("Le nom de projet doit être renseigné et valide !");
           }
