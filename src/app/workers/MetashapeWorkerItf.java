@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public interface MetashapeWorkerItf {
 
-    void createMetashapeProject(ArrayList<File> photos, String projectName, String projectDirectory) throws IOException;
+    String createMetashapeProject(ArrayList<File> photos, String projectName, String projectDirectory) throws IOException;
 
     String verifMetashapeExe() throws Exception;
 

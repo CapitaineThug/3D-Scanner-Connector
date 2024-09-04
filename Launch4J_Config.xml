@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\Nicolas\OneDrive - EDUETATFR\EMF\JPO\Project 3D Scanner\3D-Scanner-Connector\3D-Scanner-Connector.jar</jar>
+  <outfile>C:\Users\Nicolas\OneDrive - EDUETATFR\EMF\JPO\Project 3D Scanner\3D-Scanner-Connector\dist\3D Scanner Connector.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\Nicolas\OneDrive - EDUETATFR\EMF\JPO\Project 3D Scanner\3D-Scanner-Connector\src\resources\images\icon02.ico</icon>
+  <classPath>
+    <mainClass>app.App</mainClass>
+    <cp>C:\Users\Nicolas\OneDrive - EDUETATFR\EMF\JPO\Project 3D Scanner\3D-Scanner-Connector\lib\bin</cp>
+  </classPath>
+  <jre>
+    <path>jre</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion></minVersion>
+    <maxVersion></maxVersion>
+    <opt>--enable-preview -Djava.library.path=bin</opt>
+  </jre>
+</launch4jConfig>

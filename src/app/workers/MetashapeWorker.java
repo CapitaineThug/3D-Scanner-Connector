@@ -12,13 +12,17 @@ public class MetashapeWorker implements MetashapeWorkerItf {
     /**
      * Créée le projet Metashape ainsi que la structure de fichiers et importe le
      * projet
+     * 
+     * @return null, ou résultat console de l'exécution de la commande si elle a pu
+     *         être lancée
      */
-    public void createMetashapeProject(ArrayList<File> photos, String projectName, String projectsRoot)
+    public String createMetashapeProject(ArrayList<File> photos, String projectName, String projectsRoot)
             throws IOException {
 
         // Variables
+        String result = null;
         String exeName = "metashape.exe";
-        String scriptPath = new File("script" + File.separator + "CreateProjectFiles.py").getAbsolutePath();
+        String scriptPath = new File("script" + File.separator + "CreateProjectFiles.py").getPath();
         String projectDirectory = projectsRoot + File.separator + projectName;
         String projectImagesPath = projectDirectory + File.separator + "IMG";
 
@@ -47,8 +51,17 @@ public class MetashapeWorker implements MetashapeWorkerItf {
         BufferedReader reader = new BufferedReader(new InputStreamReader(metashape.getInputStream()));
         String line;
         while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+            if (result == null) {
+                result = "";
+            }
+            result = result + " " + line;
         }
+
+        // Lancer le programme
+        Process project = new ProcessBuilder(exeName, projectDirectory + File.separator + projectName + ".psx").start();
+
+        // Retour
+        return result;
     }
 
     @Override
